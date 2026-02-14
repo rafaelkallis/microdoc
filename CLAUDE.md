@@ -1,6 +1,6 @@
-# claude-microdoc
+# microdoc
 
-Claude Code plugin that injects concise doc summaries into sessions.
+Claude Code plugin marketplace that distributes the microdoc plugin.
 
 ## How it works
 
@@ -8,10 +8,11 @@ A SessionStart hook scans for doc files matching a configurable glob pattern (de
 
 ## Architecture
 
-- `hooks/load-docs.js` -- Node.js script (stdlib only, no dependencies). Glob-matches doc files under `CLAUDE_PROJECT_DIR`, parses frontmatter, XML-escapes descriptions, outputs `<project-docs>` XML to stdout.
-- `hooks/hooks.json` -- Registers load-docs.js as a SessionStart hook via `${CLAUDE_PLUGIN_ROOT}`.
-- `skills/doc-development/SKILL.md` -- Skill for writing and maintaining doc descriptions (15-20 word topic indexes, not prose summaries).
-- `.claude-plugin/plugin.json` -- Plugin manifest.
+- `plugins/microdoc/hooks/load-docs.js` -- Node.js script (stdlib only, no dependencies). Glob-matches doc files under `CLAUDE_PROJECT_DIR`, parses frontmatter, XML-escapes descriptions, outputs `<project-docs>` XML to stdout.
+- `plugins/microdoc/hooks/hooks.json` -- Registers load-docs.js as a SessionStart hook via `${CLAUDE_PLUGIN_ROOT}`.
+- `plugins/microdoc/skills/doc-development/SKILL.md` -- Skill for writing and maintaining doc descriptions (15-20 word topic indexes, not prose summaries).
+- `plugins/microdoc/.claude-plugin/plugin.json` -- Plugin manifest.
+- `.claude-plugin/marketplace.json` -- Marketplace manifest.
 
 ## Configuration
 
@@ -22,7 +23,7 @@ Environment variables (set via `.claude/settings.json` `env` field or shell):
 
 ## Versioning
 
-Always bump the plugin version in `.claude-plugin/plugin.json` when making changes. Use semver: patch for fixes, minor for features, major for breaking changes.
+Always bump the plugin version in `plugins/microdoc/.claude-plugin/plugin.json` when making changes. Use semver: patch for fixes, minor for features, major for breaking changes.
 
 ## Development Constraints
 
@@ -38,11 +39,11 @@ Prefer relative paths over absolute paths when executing commands with path argu
 Test the hook locally:
 
 ```sh
-CLAUDE_PROJECT_DIR=<project-with-docs> node hooks/load-docs.js
+CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/load-docs.js
 ```
 
 Disabled:
 
 ```sh
-CLAUDE_MICRODOC_DISABLED=1 CLAUDE_PROJECT_DIR=<project-with-docs> node hooks/load-docs.js
+CLAUDE_MICRODOC_DISABLED=1 CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/load-docs.js
 ```

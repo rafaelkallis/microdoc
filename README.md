@@ -1,10 +1,10 @@
-# claude-microdoc
+# microdoc
 
 Claude Code plugin that injects concise doc summaries into every session.
 
 ## Why
 
-Claude Code doesn't automatically know about your project's documentation. You could paste full docs into context, but that wastes tokens. claude-microdoc is a super simple RAG pipeline: your markdown docs are the knowledge base, YAML frontmatter descriptions are the index, and Claude reads the full doc on demand when it's relevant.
+Claude Code doesn't automatically know about your project's documentation. You could paste full docs into context, but that wastes tokens. microdoc is a super simple RAG pipeline: your markdown docs are the knowledge base, YAML frontmatter descriptions are the index, and Claude reads the full doc on demand when it's relevant.
 
 At session start, the plugin scans your docs, extracts short descriptions from frontmatter, and injects them as structured context. Claude then knows what documentation exists and can retrieve the full content when needed.
 
@@ -40,20 +40,11 @@ No dependencies -- the hook uses Node.js stdlib only.
 
 ## Installation
 
-Clone the repository and add it as a Claude Code plugin:
+Add the marketplace and install the plugin:
 
 ```sh
-git clone https://github.com/rafaelkallis/claude-microdoc.git ~/.claude/plugins/claude-microdoc
-```
-
-Then add it to your Claude Code settings (`~/.claude/settings.json`):
-
-```json
-{
-  "plugins": [
-    "~/.claude/plugins/claude-microdoc/.claude-plugin"
-  ]
-}
+/plugin marketplace add rafaelkallis/microdoc
+/plugin install microdoc@microdoc
 ```
 
 ## Configuration

@@ -1,0 +1,17 @@
+{
+  "name": "microdoc",
+  "owner": {
+    "name": "Rafael Kallis"
+  },
+  "metadata": {
+    "description": "Injects concise doc summaries into Claude Code sessions",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "microdoc",
+      "source": "microdoc",
+      "description": "Injects concise doc summaries into Claude Code sessions"
+    }
+  ]
+}
