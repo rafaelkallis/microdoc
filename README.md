@@ -63,7 +63,7 @@ Set environment variables in `.claude/settings.json` under the `env` field, or e
 | Variable | Default | Description |
 |---|---|---|
 | `CLAUDE_MICRODOC_GLOB` | `docs/**/*.{md,mdc}` | Comma-separated glob patterns for doc files. Supports `**`, `*`, `?`, `{a,b}`. |
-| `CLAUDE_MICRODOC_DISABLED` | (unset) | Set to `true` to disable the plugin for a project. |
+| `CLAUDE_MICRODOC_DISABLED` | (unset) | Set to `1` to disable the plugin for a project. |
 
 Example with a custom glob:
 

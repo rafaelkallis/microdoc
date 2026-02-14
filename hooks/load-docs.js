@@ -126,7 +126,7 @@ function main() {
   const projectDir = process.env.CLAUDE_PROJECT_DIR;
   if (!projectDir) process.exit(0);
 
-  if (process.env.CLAUDE_MICRODOC_DISABLED === "true") process.exit(0);
+  if (process.env.CLAUDE_MICRODOC_DISABLED === "1") process.exit(0);
 
   const globStr = process.env.CLAUDE_MICRODOC_GLOB || "docs/**/*.{md,mdc}";
   const patterns = splitGlobs(globStr).filter(Boolean);

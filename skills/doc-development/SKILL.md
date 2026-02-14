@@ -56,7 +56,7 @@ When updating a doc's content with significant new information, update the front
 
 ## Configuration
 
-The docs directory and file extensions can be customized via the `CLAUDE_MICRODOC_GLOB` environment variable (default: `docs/**/*.{md,mdc}`). Set in `.claude/settings.json` under the `env` field. Check for a custom glob before assuming docs live in `docs/`. The plugin can be disabled per-project by setting `CLAUDE_MICRODOC_DISABLED=true`.
+The docs directory and file extensions can be customized via the `CLAUDE_MICRODOC_GLOB` environment variable (default: `docs/**/*.{md,mdc}`). Set in `.claude/settings.json` under the `env` field. Check for a custom glob before assuming docs live in `docs/`. The plugin can be disabled per-project by setting `CLAUDE_MICRODOC_DISABLED=1`.
 
 ## Supersession
 

@@ -17,8 +17,12 @@ A SessionStart hook scans for doc files matching a configurable glob pattern (de
 
 Environment variables (set via `.claude/settings.json` `env` field or shell):
 
-- `CLAUDE_MICRODOC_DISABLED` -- set to `true` to disable the plugin for a project.
+- `CLAUDE_MICRODOC_DISABLED` -- set to `1` to disable the plugin for a project.
 - `CLAUDE_MICRODOC_GLOB` -- comma-separated glob patterns for doc files (default: `docs/**/*.{md,mdc}`). Supports `**`, `*`, `?`, `{a,b}`.
+
+## Versioning
+
+Always bump the plugin version in `.claude-plugin/plugin.json` when making changes. Use semver: patch for fixes, minor for features, major for breaking changes.
 
 ## Commands
 
