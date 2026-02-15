@@ -15,7 +15,7 @@ A SessionStart hook scans for doc files matching a configurable glob pattern (de
 - `plugins/microdoc/.claude-plugin/plugin.json` -- Plugin manifest.
 - `.claude-plugin/marketplace.json` -- Marketplace manifest.
 - `plugins/microdoc/test/` -- Unit and integration tests using `node:test` (no dependencies).
-- `.github/workflows/test.yml` -- CI workflow running tests on Node 18/20/22.
+- `.github/workflows/test.yml` -- CI workflow running tests on Node 22/24/25.
 
 ## Configuration
 
@@ -34,11 +34,9 @@ Always bump the plugin version in `plugins/microdoc/.claude-plugin/plugin.json` 
 - File discovery uses `git ls-files` when available, falls back to `readdirRecursive` with hardcoded `SKIP_DIRS` for non-git projects.
 - Frontmatter parser is minimal: expects `---\n` at byte 0, supports inline values, quoted strings, and block scalars (`|`, `>`). Not a full YAML parser.
 
-## Commands
+## Testing
 
 Prefer relative paths over absolute paths when executing commands with path arguments.
-
-## Testing
 
 Run the full test suite:
 
@@ -57,3 +55,7 @@ Disabled:
 ```sh
 CLAUDE_MICRODOC_DISABLED=1 CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/microdoc.js
 ```
+
+## Node.js Version Policy
+
+CI tests against 3 Node.js versions: the Current release and the two most recent LTS versions. If the Current release is itself an LTS version, all three are LTS. For example: 22, 24, 25 today; once 26 ships, 22, 24, 26.
