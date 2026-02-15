@@ -10,13 +10,14 @@ At session start, the plugin scans your docs, extracts short descriptions from f
 
 ## How It Works
 
-1. A **SessionStart hook** runs `hooks/load-docs.js` when a Claude Code session begins.
+1. A **SessionStart hook** runs `hooks/microdoc.js` when a Claude Code session begins.
 2. The script glob-matches doc files (default: `docs/**/*.{md,mdc}`) under your project directory.
 3. It extracts the `description` field from each file's YAML frontmatter.
 4. It outputs structured XML that gets injected into the session context:
 
 ```xml
-<project-docs>
+<microdoc>
+  <attribution>Injected by microdoc (by Rafael Kallis) from project documentation files.</attribution>
   <instructions>
     Project documentation is available as markdown files with YAML frontmatter descriptions.
     Consult relevant docs before making architectural suggestions or implementation decisions.
@@ -33,7 +34,7 @@ At session start, the plugin scans your docs, extracts short descriptions from f
       <description>Staging environment. Docker Compose on EC2. Auto-deploy from main branch.</description>
     </doc>
   </docs>
-</project-docs>
+</microdoc>
 ```
 
 No dependencies -- the hook uses Node.js stdlib only.
