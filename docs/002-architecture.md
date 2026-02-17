@@ -13,8 +13,8 @@ plugins/microdoc/
     hooks.json                  Registers microdoc.js as a SessionStart hook
     microdoc.js                 Main hook script
   skills/
-    microdoc-development/       Skill for writing/maintaining doc descriptions
-    microdoc-init/              Skill for bootstrapping microdoc in a project
+    microdoc-author/            Skill for writing/maintaining doc descriptions
+    microdoc-audit/             Skill for bulk review of doc descriptions
   test/
     unit.test.js                Unit tests for exported helpers
     integration.test.js         Integration tests spawning the hook script

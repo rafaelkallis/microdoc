@@ -13,8 +13,8 @@ Claude Code doesn't automatically know about your project's docs. microdoc bridg
 ## Key Components
 
 - **SessionStart hook** (`plugins/microdoc/hooks/microdoc.js`): Glob-matches doc files, parses frontmatter, outputs XML to stdout. Uses Node.js stdlib only -- no dependencies. Two file discovery strategies: git-aware (primary, via `git ls-files`) and filesystem fallback for non-git projects.
-- **microdoc-development skill**: Guides writing token-efficient descriptions (15-20 word topic indexes).
-- **microdoc-init skill**: Bootstraps microdoc in a project -- creates docs directory, seeds overview, backfills missing descriptions. Invoke with `/microdoc-init`.
+- **microdoc-author skill**: Guides writing token-efficient descriptions (15-20 word topic indexes). Fires proactively when docs are created or updated.
+- **microdoc-audit skill**: Scans all docs for missing or stale descriptions in bulk. Invoke with `/microdoc-audit`.
 
 ## Configuration
 

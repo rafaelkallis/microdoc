@@ -82,7 +82,18 @@ description: Document parsing. Chose Docling for PDF/DOCX. Plain read for txt/md
 ---
 ```
 
-The plugin includes a `Microdoc Development` skill with full guidance on writing and maintaining descriptions. Invoke it with `/microdoc-development` or let Claude use it automatically when working with docs.
+The plugin includes a `Microdoc Author` skill with full guidance on writing and maintaining descriptions. Invoke it with `/microdoc-author` or let Claude use it automatically when working with docs.
+
+## Auditing Descriptions
+
+The `/microdoc-audit` skill scans all docs for missing or stale descriptions. It:
+
+- Creates the docs directory and seeds an overview file if the project has no docs yet
+- Scans all doc files for missing frontmatter, missing descriptions, and stale descriptions
+- Reports a summary table of issues before making any changes
+- Applies fixes only after user confirmation
+
+Run `/microdoc-audit` when you want to review description quality across the project.
 
 ## License
 

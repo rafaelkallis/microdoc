@@ -1,11 +1,15 @@
 ---
-name: microdoc-development
-description: This skill should be used when the user asks to "create a doc", "add a new doc", "write a design record", "add a design decision", "update a doc", "update doc description", "document a decision", or needs guidance on writing concise frontmatter descriptions for docs/.
+name: microdoc-author
+description: This skill should be used proactively whenever a doc in docs/ is created, updated, or has its description written -- whether by the user or by the agent as part of another task. Also use when the user asks to "create a doc", "add a new doc", "write a design record", "add a design decision", "update a doc", "update doc description", "document a decision", "initialize microdoc", "set up microdoc", "set up docs", "initialize docs", "backfill descriptions", or needs guidance on writing concise frontmatter descriptions.
 ---
 
-# Doc Development
+# Doc Authoring
 
 Markdown files in `docs/` with YAML frontmatter descriptions are injected into every Claude Code session via a SessionStart hook. Description quality and brevity directly affect token budget.
+
+## Author vs Audit
+
+The **author** skill provides proactive guidance for individual docs as they are written or edited. It fires frequently -- any time a doc is created, updated, or needs a description. The **audit** skill (`microdoc:microdoc-audit`) is a deliberate bulk review across all docs, run infrequently on explicit request.
 
 ## Creating a New Doc
 
