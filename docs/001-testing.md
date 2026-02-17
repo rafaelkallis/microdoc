@@ -15,7 +15,7 @@ node --test
 Run an individual test file:
 
 ```sh
-node --test plugins/microdoc/test/unit.test.js
+node --test plugins/microdoc/test/unit.test.mjs
 ```
 
 Prefer relative paths over absolute paths when executing commands with path arguments.
@@ -25,13 +25,13 @@ Prefer relative paths over absolute paths when executing commands with path argu
 Test the hook against a project directory:
 
 ```sh
-CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/microdoc.js
+CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/microdoc.mjs
 ```
 
 Test with the plugin disabled:
 
 ```sh
-CLAUDE_MICRODOC_DISABLED=1 CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/microdoc.js
+CLAUDE_MICRODOC_DISABLED=1 CLAUDE_PROJECT_DIR=<project-with-docs> node plugins/microdoc/hooks/microdoc.mjs
 ```
 
 ## Test Framework
@@ -40,8 +40,8 @@ Tests use `node:test` and `node:assert/strict` -- no external dependencies, cons
 
 ## Test Structure
 
-- `plugins/microdoc/test/unit.test.js` -- Unit tests for exported helpers: `xmlEscape`, `globToRegex`, `splitGlobs`, `extractStaticPrefix`, `extractDescription`, `readdirRecursive`.
-- `plugins/microdoc/test/integration.test.js` -- Integration tests that spawn the hook script as a child process against temporary directories. Covers three scenarios:
+- `plugins/microdoc/test/unit.test.mjs` -- Unit tests for exported helpers: `xmlEscape`, `globToRegex`, `splitGlobs`, `extractStaticPrefix`, `extractDescription`, `readdirRecursive`.
+- `plugins/microdoc/test/integration.test.mjs` -- Integration tests that spawn the hook script as a child process against temporary directories. Covers three scenarios:
   - **Default (git-based)**: Tests within a `git init`'d temp dir to exercise `git ls-files` file discovery, `.gitignore` respect, and untracked file inclusion.
   - **Fallback (non-git)**: Tests in a plain temp dir to exercise `readdirRecursive` with `SKIP_DIRS` filtering (e.g., `node_modules`).
   - **General**: XML output structure, disabled mode, missing `CLAUDE_PROJECT_DIR`, custom globs, multi-glob patterns, deeply nested files, XML escaping, missing descriptions.
@@ -56,6 +56,6 @@ CI tests against 3 Node.js versions: the Current release and the two most recent
 
 ## Writing New Tests
 
-- Unit tests go in `unit.test.js`. Import helpers from `../hooks/microdoc.js` and test pure functions directly.
-- Integration tests go in `integration.test.js`. Use the `writeDoc` / `runScript` pattern: create files in a temp dir, spawn the hook, assert on stdout.
+- Unit tests go in `unit.test.mjs`. Import helpers from `../hooks/microdoc.mjs` and test pure functions directly.
+- Integration tests go in `integration.test.mjs`. Use the `writeDoc` / `runScript` pattern: create files in a temp dir, spawn the hook, assert on stdout.
 - Each `describe` block manages its own temp directory via `before`/`after` hooks with `fs.mkdtempSync` and `fs.rmSync`.

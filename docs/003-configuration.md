@@ -68,7 +68,7 @@ export CLAUDE_MICRODOC_DISABLED=1
 Pass directly when running the hook script:
 
 ```sh
-CLAUDE_PROJECT_DIR=. CLAUDE_MICRODOC_GLOB="**/*.md" node plugins/microdoc/hooks/microdoc.js
+CLAUDE_PROJECT_DIR=. CLAUDE_MICRODOC_GLOB="**/*.md" node plugins/microdoc/hooks/microdoc.mjs
 ```
 
 ## Implicit Variables

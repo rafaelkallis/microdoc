@@ -10,14 +10,14 @@ description: Architecture and file layout. Hook pipeline, git-aware and fallback
 plugins/microdoc/
   .claude-plugin/plugin.json    Plugin manifest (name, version, description)
   hooks/
-    hooks.json                  Registers microdoc.js as a SessionStart hook
-    microdoc.js                 Main hook script
+    hooks.json                  Registers microdoc.mjs as a SessionStart hook
+    microdoc.mjs                Main hook script
   skills/
     microdoc-author/            Skill for writing/maintaining doc descriptions
     microdoc-audit/             Skill for bulk review of doc descriptions
   test/
-    unit.test.js                Unit tests for exported helpers
-    integration.test.js         Integration tests spawning the hook script
+    unit.test.mjs               Unit tests for exported helpers
+    integration.test.mjs        Integration tests spawning the hook script
 .claude-plugin/
   marketplace.json              Marketplace manifest (plugin registry)
 docs/                           Project documentation (consumed by microdoc itself)
@@ -25,7 +25,7 @@ docs/                           Project documentation (consumed by microdoc itse
 
 ## Hook Script Pipeline
 
-`plugins/microdoc/hooks/microdoc.js` runs as a SessionStart hook. The pipeline:
+`plugins/microdoc/hooks/microdoc.mjs` runs as a SessionStart hook. The pipeline:
 
 1. **Early exit** if `CLAUDE_PROJECT_DIR` is unset or `CLAUDE_MICRODOC_DISABLED=1`.
 2. **Parse glob patterns** from `CLAUDE_MICRODOC_GLOB` (default: `docs/**/*.{md,mdc}`). `splitGlobs` splits on commas while respecting brace nesting. Each pattern is compiled to a regex via `globToRegex`.
@@ -71,24 +71,29 @@ Custom minimal glob-to-regex compiler (`globToRegex`). Supports:
 ## XML Output Format
 
 ```xml
-<microdoc>
-<attribution>...</attribution>
-<instructions>...</instructions>
-
+<microdoc source="microdoc plugin by Rafael Kallis">
+<instructions>
+Markdown docs with YAML frontmatter descriptions are indexed below.
+Consult relevant docs before making architectural or implementation decisions.
+When a description overlaps with the current task, Read the full doc before proceeding.
+</instructions>
 <docs>
-<doc>
-<path>docs/example.md</path>
-<description>Description text here</description>
-</doc>
+<doc path="docs/example.md">Description text here</doc>
+<doc path="docs/no-description.md"/>
 </docs>
 </microdoc>
 ```
 
-Descriptions are XML-escaped (`&`, `<`, `>`) via `xmlEscape`. Files without a description show `(no description)`.
+**Format details:**
+- `<microdoc>` tag has a `source` attribute for attribution
+- Each `<doc>` tag uses `path` as an attribute (not a nested element)
+- Description text is the direct text content of the `<doc>` tag (not a nested `<description>` element)
+- Files without descriptions use self-closing tags: `<doc path="..."/>`
+- All descriptions are XML-escaped via `xmlEscape()` for text content and `xmlEscapeAttr()` for attributes
 
 ## Development Constraints
 
 - **stdlib only** -- `fs`, `path`, `child_process`. No npm dependencies.
 - Hook has a 5-second timeout (configured in `hooks.json`).
-- All helper functions are exported from `microdoc.js` for unit testability.
-- A `require.main === module` guard enables both direct CLI execution and `require()` for tests.
+- All helper functions are exported from `microdoc.mjs` for unit testability.
+- A guard enables both direct CLI execution and module import for tests.

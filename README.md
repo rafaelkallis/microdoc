@@ -50,7 +50,7 @@ Add the marketplace and install the plugin:
 
 ## How It Works
 
-1. A **SessionStart hook** runs `hooks/microdoc.js` when a Claude Code session begins.
+1. A **SessionStart hook** runs `hooks/microdoc.mjs` when a Claude Code session begins.
 2. The script glob-matches doc files (default: `docs/**/*.{md,mdc}`) under your project directory.
 3. It extracts the `description` field from each file's YAML frontmatter.
 4. It outputs structured XML that gets injected into the session context.
