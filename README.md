@@ -8,36 +8,36 @@ Claude Code doesn't automatically know about your project's documentation. You c
 
 At session start, the plugin scans your docs, extracts short descriptions from frontmatter, and injects them as structured context. Claude then knows what documentation exists and can retrieve the full content when needed.
 
-## How It Works
+## Quick Start
 
-1. A **SessionStart hook** runs `hooks/microdoc.js` when a Claude Code session begins.
-2. The script glob-matches doc files (default: `docs/**/*.{md,mdc}`) under your project directory.
-3. It extracts the `description` field from each file's YAML frontmatter.
-4. It outputs structured XML that gets injected into the session context:
+microdoc works out of the box -- install it, and any markdown file under `docs/` with a `description` in its YAML frontmatter gets picked up automatically.
+
+Add a description to your docs:
+
+```yaml
+---
+description: Document parsing. Chose Docling for PDF/DOCX. Plain read for txt/md.
+---
+```
+
+At session start, microdoc injects a summary of all your docs into the context:
 
 ```xml
-<microdoc>
-  <attribution>Injected by microdoc (by Rafael Kallis) from project documentation files.</attribution>
-  <instructions>
-    Project documentation is available as markdown files with YAML frontmatter descriptions.
-    Consult relevant docs before making architectural suggestions or implementation decisions.
-    When a doc's description overlaps with the current task, use Read to load its full content before proceeding.
-  </instructions>
-
-  <docs>
-    <doc>
-      <path>docs/architecture/parsing.md</path>
-      <description>Document parsing. Chose Docling for PDF/DOCX. Plain read for txt/md.</description>
-    </doc>
-    <doc>
-      <path>docs/deployment/staging.md</path>
-      <description>Staging environment. Docker Compose on EC2. Auto-deploy from main branch.</description>
-    </doc>
-  </docs>
+<microdoc source="microdoc plugin by Rafael Kallis">
+<instructions>...</instructions>
+<docs>
+  <doc path="docs/architecture/parsing.md">Document parsing. Chose Docling for PDF/DOCX. Plain read for txt/md.</doc>
+  <doc path="docs/deployment/staging.md">Staging environment. Docker Compose on EC2. Auto-deploy from main branch.</doc>
+</docs>
 </microdoc>
 ```
 
-No dependencies -- the hook uses Node.js stdlib only.
+Claude sees this index and reads the full doc whenever a task overlaps with a description.
+
+## Skills
+
+- **`/microdoc-author`** -- Guides you through writing and maintaining frontmatter descriptions. Covers style, length, and what makes a description effective. Use it when adding or updating a doc.
+- **`/microdoc-audit`** -- Bulk-reviews all docs for missing or stale descriptions. Reports a summary table of issues and applies fixes only after your confirmation. Run it periodically to keep descriptions in shape.
 
 ## Installation
 
@@ -47,6 +47,15 @@ Add the marketplace and install the plugin:
 /plugin marketplace add rafaelkallis/microdoc
 /plugin install microdoc@microdoc
 ```
+
+## How It Works
+
+1. A **SessionStart hook** runs `hooks/microdoc.js` when a Claude Code session begins.
+2. The script glob-matches doc files (default: `docs/**/*.{md,mdc}`) under your project directory.
+3. It extracts the `description` field from each file's YAML frontmatter.
+4. It outputs structured XML that gets injected into the session context.
+
+No dependencies -- the hook uses Node.js stdlib only.
 
 ## Configuration
 
@@ -66,34 +75,6 @@ Example with a custom glob:
   }
 }
 ```
-
-## Writing Doc Descriptions
-
-Descriptions are indexes for deciding when to read the full doc, not prose summaries. They are injected into every session, so brevity matters.
-
-- Lead with the topic in 2-3 words
-- State the key decision or purpose without justification
-- List key terms that would trigger reading the full doc
-- Target 15-20 words
-
-```yaml
----
-description: Document parsing. Chose Docling for PDF/DOCX. Plain read for txt/md. Rejected PyMuPDF, Unstructured.
----
-```
-
-The plugin includes a `Microdoc Author` skill with full guidance on writing and maintaining descriptions. Invoke it with `/microdoc-author` or let Claude use it automatically when working with docs.
-
-## Auditing Descriptions
-
-The `/microdoc-audit` skill scans all docs for missing or stale descriptions. It:
-
-- Creates the docs directory and seeds an overview file if the project has no docs yet
-- Scans all doc files for missing frontmatter, missing descriptions, and stale descriptions
-- Reports a summary table of issues before making any changes
-- Applies fixes only after user confirmation
-
-Run `/microdoc-audit` when you want to review description quality across the project.
 
 ## License
 
